@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "cabinet"
+version = "0.1.0"
+description = "Cabinet of utility functions for IPOP data scientists"
+authors = ["Nick Anthony <nanthony007@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+scispacy = {version = "^0.5.1"}
+black = {version = "^23.3.0", optional = true}
+ruff = {version = "^0.0.261", optional = true}
+pytest = {version = "^7.3.0", optional = true}
+en-core-sci-lg = {url = "https://s3-us-west-2.amazonaws.com/ai2-s2-scispacy/releases/v0.5.1/en_core_sci_lg-0.5.1.tar.gz"}
+
+
+[tool.poetry.extras]
+nlp = ["scispacy"]
+development = ["black", "ruff", "pytest"]
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
