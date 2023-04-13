@@ -114,7 +114,7 @@ class MetaMap(BaseModel):
             console.print(
                 "[red bold]ERROR:[/] [red]MetaMap is not initialized.[/] Please try running `initialize()` first."
             )
-            return None
+            sys.exit(1)
 
         input_command = Popen(["echo", text], stdout=PIPE)
         match MMOutputType(output_type):
@@ -157,12 +157,23 @@ def check_pandas(func):
 
 
 if __name__ == "__main__":
+    from tqdm import tqdm
+    from tqdm.contrib.concurrent import thread_map
+
     mm = MetaMap(metamap_location=Path("~/public_mm"))
-    # for item in tqdm(["lung cancer", "heart attack"] * 1_000):
-    #     print(mm.run(item))
-    result = mm.run("lung cancer", output_type="json")
+    mm.initialize()
+    result = mm.run("lung cancer", output_type="mmi")
     print(result)
+
+    for item in tqdm(["lung cancer", "heart attack"] * 100):
+        r = mm.run(item)
 
     # TODO: test parallelism on this... it relies on WSD server so not sure if it will help...
     # this seems to be faster 🙂 but still needs checking
-    # results = thread_map(mm.run, ["lung cancer", "heart attack"] * 1_000, max_workers=4)
+    results = thread_map(mm.run, ["lung cancer", "heart attack"] * 100, max_workers=4)
+
+    # default worker count
+    results = thread_map(mm.run, ["lung cancer", "heart attack"] * 100)
+
+    # more workers
+    results = thread_map(mm.run, ["lung cancer", "heart attack"] * 100, max_workers=40)

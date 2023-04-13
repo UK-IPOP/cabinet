@@ -2,6 +2,7 @@ from pydantic import BaseModel, PrivateAttr
 
 try:
     import spacy
+    import scispacy
 
     # bring into scope
     from scispacy.linking import EntityLinker
