@@ -1,55 +1,23 @@
+import os
+
 from rich import pretty
 from rich.console import Console
-import asyncio
-import aiohttp
-from tqdm.asyncio import tqdm_asyncio
+import dotenv
 
+
+dotenv.load_dotenv()
 pretty.install()
 
-console = Console()
+c = Console()
 
-
-async def post_nlp(session: aiohttp.ClientSession, text: str)
-    async with session.post("/nlp", json={"text": text}) as resp:
-        return await resp.json()
-
-async def get_pokemon(session: aiohttp.ClientSession, url: str):
-    async with session.get(url) as resp:
-        return await resp.json()
-
-
-async def fetch_one_pokemon():
-    async with aiohttp.ClientSession("https://pokeapi.co") as session:
-        async with session.get("api/v2/pokemon/6") as resp:
-            return await resp.json()
-
-
-def return_pokemon():
-    return asyncio.run(fetch_one_pokemon())
-
-
-async def fetch_many_pokemon(with_progress: bool):
-    results = []
-    async with aiohttp.ClientSession() as session:
-        tasks = set()
-        for i in range(1, 10):
-            url = f"https://pokeapi.co/api/v2/pokemon/{i}"
-            task = asyncio.create_task(get_pokemon(session, url))
-            tasks.add(task)
-            task.add_done_callback(tasks.discard)
-
-        if with_progress:
-            for task_result in tqdm_asyncio.as_completed(tasks):
-                result = await task_result
-                results.append(result)
-                console.log(result["name"], result["id"], style="bold green")
-        else:
-            for task_result in asyncio.as_completed(tasks):
-                result = await task_result
-                results.append(result)
-                console.log(result["name"], result["id"], style="bold green")
-    return results
-
-
-def return_many_pokemon(with_progress: bool = True):
-    return asyncio.run(fetch_many_pokemon(with_progress=with_progress))
+# TODO: can we use a secure (ssl) websocket connetion?
+_mode = os.getenv("MODE", "PROD")
+if _mode == "PROD":
+    _API_URL = "http://api:8000"
+    _WS_URL = "ws://api:8000"
+elif _mode == "DEV":
+    os.environ["NO_PROXY"] = "127.0.0.1"
+    _API_URL = "http://127.0.0.1:8000"
+    _WS_URL = "ws://127.0.0.1:8000"
+else:
+    raise ValueError(f"MODE must be either PROD or DEV, not {_mode}")
