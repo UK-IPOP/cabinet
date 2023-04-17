@@ -39,4 +39,4 @@ def categorize_age(age: PositiveInt) -> str:
     elif age <= 65:
         return "56-65"
     else:
-        return "65+"
+        return ">65"
