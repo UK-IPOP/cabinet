@@ -93,7 +93,7 @@ async def _post_ner(session: aiohttp.ClientSession, text: str) -> list[NEROutput
     Raises:
         Exception: If the response status is not 200.
     """
-    async with session.post(f"/models/ner", json={"text": text}) as resp:
+    async with session.post("/models/ner", json={"text": text}) as resp:
         if resp.status != 200:
             raise Exception(f"Error: {resp.status}. {await resp.text()}")
         # response will have json key according to API
