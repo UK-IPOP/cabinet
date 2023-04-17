@@ -188,6 +188,7 @@ class MetaMap(BaseModel):
                 )
                 output = _run_process_command(mm_command)
                 return output
+        return None
 
     @validate_arguments
     def run_many(
