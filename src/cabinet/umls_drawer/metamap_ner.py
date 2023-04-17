@@ -20,7 +20,6 @@ import time
 from pathlib import Path
 from subprocess import PIPE, Popen
 from typing import Iterator, Literal
-from tqdm.contrib.concurrent import thread_map
 
 from pydantic import BaseModel, PrivateAttr, validate_arguments, validator
 
@@ -217,5 +216,8 @@ class MetaMap(BaseModel):
                 print(result)
             ```
         """
+        # local import to avoid exposing function and since only used here for now
+        from tqdm.contrib.concurrent import thread_map
+
         # allow default selection of max-workers
         return thread_map(self.run, texts)
