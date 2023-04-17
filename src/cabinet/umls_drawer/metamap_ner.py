@@ -155,11 +155,11 @@ class MetaMap(BaseModel):
 
         Example:
             ```python
-            >>>from cabinet.umls_drawer import MetaMap, MMOutputType
-            >>>mm = MetaMap(metamap_location="/Users/username/metamap/public_mm")
-            >>>mm.initialize()
-            >>>results = mm.run(text="I have a headache.", output_type=MMOutputType.MMI)
-            >>>print(results)
+            >>> from cabinet.umls_drawer import MetaMap, MMOutputType
+            >>> mm = MetaMap(metamap_location="/Users/username/metamap/public_mm")
+            >>> mm.initialize()
+            >>> results = mm.run(text="I have a headache.", output_type=MMOutputType.MMI)
+            >>> print(results)
             ```
         """
         if self._initialized is False:
@@ -209,11 +209,11 @@ class MetaMap(BaseModel):
 
         Example:
             ```python
-            >>>from cabinet.umls_drawer import MetaMap
-            >>>mm = MetaMap(metamap_location="/Users/username/metamap/public_mm")
-            >>>mm.initialize()
-            >>>results = mm.run_many(texts=["I have a headache.", "I have a fever."])
-            >>>for result in results:
+            >>> from cabinet.umls_drawer import MetaMap
+            >>> mm = MetaMap(metamap_location="/Users/username/metamap/public_mm")
+            >>> mm.initialize()
+            >>> results = mm.run_many(texts=["I have a headache.", "I have a fever."])
+            >>> for result in results:
                 print(result)
             ```
         """
