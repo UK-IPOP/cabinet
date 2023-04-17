@@ -1,3 +1,7 @@
+"""Utility functions and classes for the cabinet package.
+
+Mostly used to initialize the environment and console.
+"""
 import os
 
 from rich import pretty
@@ -10,7 +14,8 @@ pretty.install()
 
 c = Console()
 
-# TODO: can we use a secure (ssl) websocket connetion?
+# TODO: can we use a secure (ssl) websocket connection?
+# does the un-secure work in prod?
 _mode = os.getenv("MODE", "PROD")
 if _mode == "PROD":
     _API_URL = "http://api:8000"
