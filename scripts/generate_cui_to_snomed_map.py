@@ -42,8 +42,6 @@ def filter_lines(parts: LINE_PARTS) -> None | LINE_PARTS:
         return None
     if parts[6] != "Y":
         return None
-    if parts[2] != "P":
-        return None
     if parts[12] != "PT":
         return None
     if parts[4] != "PF":

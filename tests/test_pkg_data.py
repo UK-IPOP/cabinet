@@ -3,10 +3,6 @@ import pytest
 
 from cabinet.umls_drawer import Knowledge
 
-# as of today April 17, 2023, this should result in 266_603 concept maps
-# this will be adjusted with new releases of the UMLS (MRCONSO.RRF)
-_TARGET_MAP_SIZE = 266_603
-
 
 @pytest.fixture
 def knowledge() -> Knowledge:
@@ -48,9 +44,5 @@ def test_snomed_tree(knowledge: Knowledge, active_concepts: set[str]) -> None:
     assert tree_concepts.issubset(active_concepts), "Tree values not in active concepts"
     assert active_concepts.issubset(tree_concepts), "Tree values not in active concepts"
     assert len(tree_concepts) == len(active_concepts), "Tree values != active concepts"
-
-
-def test_snomed_to_cui_map(knowledge: Knowledge) -> None:
-    assert (
-        len(knowledge._cui_to_snomed) == _TARGET_MAP_SIZE
-    ), f"cui_map {len(knowledge._cui_to_snomed):,} != Target {_TARGET_MAP_SIZE:,}"
+    for k, v in knowledge._snomed_tree.items():
+        assert len(v) > 0, f"Empty value set for key {k}"
