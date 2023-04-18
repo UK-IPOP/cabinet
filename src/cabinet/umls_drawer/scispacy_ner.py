@@ -37,8 +37,6 @@ class NEROutput(BaseModel):
 
     Args/Attributes:
         cui (str): The UMLS CUI.
-        concept_name (str): The UMLS concept name.
-        concept_definition (str): The UMLS concept definition.
         entity (str): The entity that matched a UMLS concept from the source text.
         score (float): The score of the match.
 
@@ -48,8 +46,6 @@ class NEROutput(BaseModel):
         >>> from cabinet.umls_drawer import NEROutput
         >>> NEROutput(
         ...     cui="C0004096",
-        ...     concept_name="Acetaminophen",
-        ...     concept_definition="A nonsteroidal anti-inflammatory drug that is used as an analgesic and antipyretic. It is also used in the treatment of rheumatoid arthritis and osteoarthritis.",
         ...     entity="acetaminophen",
         ...     score=0.96,
         ... )
@@ -61,7 +57,7 @@ class NEROutput(BaseModel):
         >>> from cabinet.umls_drawer import post_ner_single
         >>> post_ner_single(text="cocaine")
         [
-            0 cui='12' concept_name='test' concept_definition='test22' entity='{"text":"cocaine"}' score=1.0
+            0 cui='12' entity="cocaine"} score=1.0
         ]
         ```
 
@@ -69,10 +65,6 @@ class NEROutput(BaseModel):
 
     cui: str
     """The UMLS CUI."""
-    concept_name: str
-    """The UMLS concept name."""
-    concept_definition: str
-    """The UMLS concept definition."""
     entity: str
     """The entity that matched a UMLS concept from the source text."""
     score: float
@@ -179,8 +171,6 @@ def post_ner_single(text: str) -> list[NEROutput]:
         [
             NEROutput(
                 cui="C0004096",
-                concept_name="Acetaminophen",
-                concept_definition="A nonsteroidal anti-inflammatory drug that is used as an analgesic and antipyretic. It is also used in the treatment of rheumatoid arthritis and osteoarthritis.",
                 entity="acetaminophen",
                 score=0.96,
             )
@@ -213,15 +203,11 @@ def post_ner_many(
         [
             (0, NEROutput(
                 cui="C0004096",
-                concept_name="Acetaminophen",
-                concept_definition="A nonsteroidal anti-inflammatory drug that is used as an analgesic and antipyretic. It is also used in the treatment of rheumatoid arthritis and osteoarthritis.",
                 entity="acetaminophen",
                 score=0.96,
             )),
             (1, NEROutput(
                 cui="C0004096",
-                concept_name="Ibuprofen",
-                concept_definition="A nonsteroidal anti-inflammatory drug that is used as an analgesic and antipyretic. It is also used in the treatment of rheumatoid arthritis and osteoarthritis.",
                 entity="ibuprofen",
                 score=0.96,
             ))
@@ -255,9 +241,9 @@ async def websocket_ner(
         >>> from cabinet.umls_drawer import websocket_ner
         >>> async for i, result in websocket_ner(texts=["acetaminophen", "ibuprofen"]):
         ...     print(i, result)
-        0 cui='12' concept_name='test' concept_definition='test22' entity='{"text":"cocaine"}' score=1.0
-        1 cui='12' concept_name='test' concept_definition='test22' entity='{"text":"heroin"}' score=1.0
-        2 cui='12' concept_name='test' concept_definition='test22' entity='{"text":"cociane"}' score=1.0
+        0 cui='12' concept_name='test' entity="cocaine" score=1.0
+        1 cui='12' concept_name='test' entity="heroin" score=1.0
+        2 cui='12' concept_name='test' entity="cociane" score=1.0
     """
     async with aiohttp.ClientSession(_WS_URL) as session:
         async with session.ws_connect("/models/ner/ws") as ws:
