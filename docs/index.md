@@ -10,8 +10,6 @@ TODO: switch to mkdocs, boo sphinx
 
 :)
 
-ifo on pdf plugin:https://github.com/orzih/mkdocs-with-pdf
-
 
 metamap TOS: https://lhncbc.nlm.nih.gov/ii/tools/MetaMap/run-locally/Ts_and_Cs.html
 

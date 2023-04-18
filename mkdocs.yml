@@ -1,0 +1,20 @@
+site_name: IPOP Cabinet
+
+theme:
+  name: material
+  features:
+    - navigation.tracking
+    - navigation.sections
+    - navigation.top
+
+plugins:
+  - search
+  - mkdocstrings
+  - with-pdf
+
+nav:
+  - "User Guide": "index.md"
+  - "API Reference":
+      - "Getting Started": "api_reference/index.md"
+      - "UMLS Drawer": "api_reference/umls_drawer.md"
+      - "Cleaning Drawer": "api_reference/cleaning_drawer.md"

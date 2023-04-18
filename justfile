@@ -26,9 +26,11 @@ generate-pkg-data:
     poetry run python scripts/generate_snomed_tree.py
     poetry run python scripts/generate_cui_to_snomed_map.py
 
-build-docs:
-    poetry run sphinx-apidoc -f -o docs/source/ src/cabinet
-    sphinx-build -b html docs/source/ docs/build/html
-    cd docs && make latexpdf
-    open docs/build/html/index.html
-    cp docs/build/latex/cabinet.pdf docs
+docs:
+    poetry run mkdocs serve
+    
+    
+deploy-docs:
+    poetry run mkdocs build
+    cp site/pdf/document.pdf docs/documentation.pdf
+    poetry run mkdocs gh-deploy
