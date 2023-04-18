@@ -5,25 +5,42 @@ description = "Utility functions package for IPOP data scientists"
 authors = ["Nick Anthony <nanthony007@gmail.com>"]
 license = "AGPL-3"
 readme = "README.md"
+include = ["data/*.xz"]
+exclude = ["cabinet/umls_drawer/README.md", "cabinet/cleaning_drawer/README.md"]
 
 [tool.poetry.dependencies]
-python = "^3.9"
-pydantic = "^1.10.7"
-rich = "^13.3.3"
-tqdm = "^4.65.0"
-aiohttp = {extras = ["speedups"], version = "^3.8.4"}
-orjson = "^3.8.10"
-fastapi = "^0.95.0"
-uvicorn = "^0.21.1"
+python = ">=3.9,<3.12"
+pydantic = "~1.10.7"
+rich = "~13.3.3"
+tqdm = "~4.65.0"
+aiohttp = {extras = ["speedups"], version = "~3.8.4"}
+orjson = "~3.8.10"
+python-dotenv = "~1.0.0"
+types-tqdm = "^4.65.0.1"
 
 [tool.poetry.group.dev.dependencies]
-black = "^23.3.0"
-ruff = "^0.0.261"
-pytest = "^7.3.0"
-ipython = "^8.12.0"
-mypy = "^1.2.0"
-isort = "^5.12.0"
+black = "~23.3.0"
+ruff = "~0.0.261"
+pytest = "~7.3.0"
+ipython = "~8.12.0"
+mypy = "~1.2.0"
+pytest-cov = "~4.0.0"
+myst-parser = "^1.0.0"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+
+[tool.ruff]
+ignore = ["E501"]
+exclude = ["__init__.py"]
+line-length = 88
+target-version = "py39"
+
+[tool.ruff.mccabe]
+# Unlike Flake8, default to a complexity level of 10.
+max-complexity = 10
+
+[tool.mypy]
+exclude = ["noxfile.py"]
