@@ -11,10 +11,10 @@ jobs:
   lint:
     strategy:
       matrix:
-        os: [macos-latest, windows-latest]
+        os: [macos-latest, windows-latest, ubuntu-latest]
       fail-fast: true
     runs-on: ${{ matrix.os }}
-    name: ${{ matrix.os }}
+    name: ${{ format('lint-{0}', matrix.os )}}
     steps:
       - uses: actions/checkout@v2
       - run: pipx install poetry
@@ -24,10 +24,10 @@ jobs:
   test:
     strategy:
       matrix:
-        os: [macos-latest, windows-latest]
+        os: [macos-latest, windows-latest, ubuntu-latest]
       fail-fast: true
     runs-on: ${{ matrix.os }}
-    name: ${{ matrix.os }}
+    name: ${{ format('test-{0}', matrix.os )}}
     steps:
       - uses: actions/checkout@v2
       - run: pipx install poetry
