@@ -28,7 +28,7 @@ jobs:
     strategy:
       matrix:
         os: [macos-latest, windows-latest, ubuntu-latest]
-        python-version: [3.9, 3.10, 3.11]
+        python-version: ["3.9", "3.10", "3.11"]
       fail-fast: true
     runs-on: ${{ matrix.os }}
     name: ${{ format('Testing-{0}-{1}', matrix.os, matrix.python-version )}}
