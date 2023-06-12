@@ -115,13 +115,11 @@ async def _post_nlp_single(
 @validate_arguments
 async def _post_ner_many(
     texts: list[str],
-    with_progress: bool = True,
 ) -> list[tuple[int, NEROutput]]:
     """Submit multiple text blobs to the scispacy NER model and return the results.
 
     Args:
         texts (list[str]): The texts to submit to the NER model.
-        with_progress (bool, optional): Whether or not to show a progress bar. Defaults to True.
 
     Returns:
         list[NEROutput]: The results from the NER model.
@@ -139,15 +137,9 @@ async def _post_ner_many(
             tasks.add(task)
             task.add_done_callback(tasks.discard)
 
-            match with_progress:
-                case True:
-                    for task_result in tqdm_asyncio.as_completed(tasks):
-                        result = await task_result
-                        results.append((i, result))
-                case False:
-                    for task_result in asyncio.as_completed(tasks):
-                        result = await task_result
-                        results.append((i, result))
+            for task_result in tqdm_asyncio.as_completed(tasks):
+                result = await task_result
+                results.append((i, result))
         return results
 
 
@@ -182,13 +174,11 @@ def post_ner_single(text: str) -> list[NEROutput]:
 @validate_arguments
 def post_ner_many(
     texts: list[str],
-    with_progress: bool = True,
 ) -> list[tuple[int, NEROutput]]:
     """Submit multiple text blobs to the scispacy NER model and return the results.
 
     Args:
         texts (list[str]): The texts to submit to the NER model.
-        with_progress (bool, optional): Whether or not to show a progress bar. Defaults to True.
 
     Returns:
         Iterator[tuple[int, NEROutput]]: The results from the NER model.
@@ -213,14 +203,12 @@ def post_ner_many(
             ))
         ]
     """
-    return asyncio.run(_post_ner_many(texts, with_progress=with_progress))
+    return asyncio.run(_post_ner_many(texts))
 
 
 #! this endpoint and payload name also need to match the api
 @validate_arguments
-async def websocket_ner(
-    texts: list[str], with_progress: bool = True
-) -> AsyncIterator[tuple[int, NEROutput]]:
+async def websocket_ner(texts: list[str]) -> AsyncIterator[tuple[int, NEROutput]]:
     """Connect to the scispacy NER model websocket and submit texts.
 
     *IMPORTANT*: This function requires using the `async for` syntax and thus may not work in all scenarios or environments.
@@ -228,7 +216,6 @@ async def websocket_ner(
 
     Args:
         texts (list[str]): The texts to submit to the NER model.
-        with_progress (bool, optional): Whether or not to show a progress bar. Defaults to True.
 
     Yields:
         AsyncIterator[tuple[int, NEROutput]]: The results from the NER model.
@@ -247,18 +234,9 @@ async def websocket_ner(
     """
     async with aiohttp.ClientSession(_WS_URL) as session:
         async with session.ws_connect("/models/ner/ws") as ws:
-            match with_progress:
-                case True:
-                    for i, text in tqdm_asyncio(enumerate(texts)):
-                        await ws.send_bytes(orjson.dumps({"text": text}))
-                        raw_data = await ws.receive_bytes()
-                        response_data = orjson.loads(raw_data)
-                        data = NEROutput(**response_data)
-                        yield (i, data)
-                case False:
-                    for i, text in enumerate(texts):
-                        await ws.send_bytes(orjson.dumps({"text": text}))
-                        raw_data = await ws.receive_bytes()
-                        response_data = orjson.loads(raw_data)
-                        data = NEROutput(**response_data)
-                        yield (i, data)
+            for i, text in tqdm_asyncio(enumerate(texts)):
+                await ws.send_bytes(orjson.dumps({"text": text}))
+                raw_data = await ws.receive_bytes()
+                response_data = orjson.loads(raw_data)
+                data = NEROutput(**response_data)
+                yield (i, data)

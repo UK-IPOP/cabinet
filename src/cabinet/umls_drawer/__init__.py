@@ -16,5 +16,6 @@ for knowledge base related tasks unless you specifically need the power of MetaM
 The `post_ner` methods exposed here utilize the API to perform NER on your text.
 """
 from .scispacy_ner import post_ner_single, post_ner_many, websocket_ner, NEROutput
-from .metamap_ner import MetaMap
+
+# from .metamap_ner import MetaMap
 from .knowledge_base import Knowledge

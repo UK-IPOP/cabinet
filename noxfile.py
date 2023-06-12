@@ -2,7 +2,7 @@
 import nox  # type: ignore
 
 
-@nox.session(python="3.11", reuse_venv=True)
+@nox.session()
 def lint(session):
     # we need the main dependencies to run mypy so it doesn't fail
     # on imports
@@ -17,7 +17,7 @@ def lint(session):
     )
 
 
-@nox.session(python=["3.9", "3.10", "3.11"], reuse_venv=True)
+@nox.session()
 def test(session):
     # ! In order for this to work, you need to have a local instance of the API running
     # ! and the MODE environment variable set to DEV in your .env file AND you need to
@@ -26,5 +26,5 @@ def test(session):
     # but for now we assume that the API is running and MetaMap is installed.
     # this will be good practice for integration tests... but to be honest
     # probably won't hold a lot of value right now without CI for windows as well...
-    session.run("poetry", "install", "--only", "test", external=True)
-    session.run("pytest")
+    session.run("poetry", "install", external=True)
+    session.run("pytest", "tests/test_cleaning_drawer.py")

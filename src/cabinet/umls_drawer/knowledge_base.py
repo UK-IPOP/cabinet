@@ -29,9 +29,9 @@ TREE = dict[str, set[str]]
 def load_cui_map() -> CONCEPT_MAP:
     package_dir = resources.files("cabinet")
     data_path = package_dir.joinpath("data").joinpath("cui_to_snomed.xz")
-    with resources.as_file(data_path) as f:
-        with lzma.open(f, "rb") as f:
-            file_bytes = f.read()
+    with resources.as_file(data_path) as resource_file:
+        with lzma.open(resource_file, "rb") as data_file:
+            file_bytes = data_file.read()
     data = orjson.loads(file_bytes)
     return data
 
@@ -39,9 +39,9 @@ def load_cui_map() -> CONCEPT_MAP:
 def load_snomed_tree() -> TREE:
     package_dir = resources.files("cabinet")
     data_path = package_dir.joinpath("data").joinpath("snomed_tree.xz")
-    with resources.as_file(data_path) as f:
-        with lzma.open(f, "rb") as f:
-            file_bytes = f.read()
+    with resources.as_file(data_path) as resource_file:
+        with lzma.open(resource_file, "rb") as data_file:
+            file_bytes = data_file.read()
     data = orjson.loads(file_bytes)
     return data
 
