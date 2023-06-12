@@ -1,27 +1,27 @@
 name: continuous-testing
 
-on: 
+on:
   push:
     branches: [main]
 
   pull_request:
     branches: [main]
-  
-jobs:
 
+jobs:
   check-macos:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
       - uses: excitedleigh/setup-nox@v2.0.0
+      - run: pipx install poetry
       - run: nox
-
 
   check-ubuntu:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: excitedleigh/setup-nox@v2.0.0
+      - run: pipx install poetry
       - run: nox
 
   check-windows:
@@ -29,5 +29,5 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: excitedleigh/setup-nox@v2.0.0
+      - run: pipx install poetry
       - run: nox
-
