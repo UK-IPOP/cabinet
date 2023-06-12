@@ -2,10 +2,12 @@ name: continuous-integration
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
 
   pull_request:
-    branches: [main]
+    branches:
+      - main
 
 jobs:
   lint:
@@ -16,7 +18,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     name: ${{ format('Linting-{0}', matrix.os )}}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: wntrblm/nox@2023.04.22
         with:
           python-versions: "3.11"
@@ -31,7 +33,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     name: ${{ format('Testing-{0}', matrix.os )}}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - run: pipx install poetry
       - uses: wntrblm/nox@2023.04.22
         with:
