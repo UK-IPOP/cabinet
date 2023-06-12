@@ -17,7 +17,6 @@ def lint(session):
     )
 
 
-# TODO: python 3.9 fails on match statement
 @nox.session(python=["3.9", "3.10", "3.11"], reuse_venv=True)
 def test(session):
     # ! In order for this to work, you need to have a local instance of the API running
@@ -27,5 +26,5 @@ def test(session):
     # but for now we assume that the API is running and MetaMap is installed.
     # this will be good practice for integration tests... but to be honest
     # probably won't hold a lot of value right now without CI for windows as well...
-    session.run("poetry", "install", "--without", "docs,dev", external=True)
+    session.run("poetry", "install", "--only", "test", external=True)
     session.run("pytest")
