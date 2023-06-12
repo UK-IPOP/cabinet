@@ -12,22 +12,19 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: excitedleigh/setup-nox@v2.0.0
-      - run: pipx install poetry
+      - run: pipx install poetry nox
       - run: nox
 
   check-ubuntu:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: excitedleigh/setup-nox@v2.0.0
-      - run: pipx install poetry
+      - run: pipx install poetry nox
       - run: nox
 
   check-windows:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: excitedleigh/setup-nox@v2.0.0
-      - run: pipx install poetry
+      - run: pipx install poetry nox
       - run: nox
