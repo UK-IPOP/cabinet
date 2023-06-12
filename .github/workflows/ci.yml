@@ -17,7 +17,9 @@ jobs:
     name: ${{ format('Linting-{0}', matrix.os )}}
     steps:
       - uses: actions/checkout@v2
-      - uses: excitedleigh/setup-nox@v2.0.0
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
       - run: pipx install poetry
       - run: nox -s lint
 
@@ -25,11 +27,14 @@ jobs:
     strategy:
       matrix:
         os: [macos-latest, windows-latest, ubuntu-latest]
+        python-version: [3.9, 3.10, 3.11]
       fail-fast: true
     runs-on: ${{ matrix.os }}
-    name: ${{ format('Testing-{0}', matrix.os )}}
+    name: ${{ format('Testing-{0}-{1}', matrix.os, matrix.python-version )}}
     steps:
       - uses: actions/checkout@v2
-      - uses: excitedleigh/setup-nox@v2.0.0
       - run: pipx install poetry
+      - uses: actions/setup-python@v4
+        with:
+          python-version: ${{matrix.python-version}}
       - run: nox -s test
