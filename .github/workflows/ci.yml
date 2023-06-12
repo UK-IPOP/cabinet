@@ -17,26 +17,23 @@ jobs:
     name: ${{ format('Linting-{0}', matrix.os )}}
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-python@v4
+      - uses: wntrblm/nox@2023.04.22
         with:
-          python-version: "3.11"
+          python-versions: "3.11"
       - run: pipx install poetry
-      - run: pipx install nox
       - run: nox -s lint
 
   test:
     strategy:
       matrix:
         os: [macos-latest, windows-latest, ubuntu-latest]
-        python-version: ["3.9", "3.10", "3.11"]
       fail-fast: true
     runs-on: ${{ matrix.os }}
-    name: ${{ format('Testing-{0}-{1}', matrix.os, matrix.python-version )}}
+    name: ${{ format('Testing-{0}', matrix.os )}}
     steps:
       - uses: actions/checkout@v2
       - run: pipx install poetry
-      - run: pipx install nox
-      - uses: actions/setup-python@v4
+      - uses: wntrblm/nox@2023.04.22
         with:
-          python-version: ${{ format('{0}', matrix.python-version)}}
+          python-versions: "3.9, 3.10, 3.11"
       - run: nox -s test

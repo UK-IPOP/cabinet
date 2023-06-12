@@ -16,6 +16,8 @@ We also want to support "prettifying" these paths using string formatting such a
 
 # TODO: Add support for tree traversal.
 
+from __future__ import annotations
+
 from importlib import resources
 import lzma
 import orjson

@@ -2,7 +2,7 @@
 import nox  # type: ignore
 
 
-@nox.session()
+@nox.session(python=["3.11"], reuse_venv=True)
 def lint(session):
     # we need the main dependencies to run mypy so it doesn't fail
     # on imports
@@ -17,7 +17,7 @@ def lint(session):
     )
 
 
-@nox.session()
+@nox.session(python=["3.9", "3.10", "3.11"], reuse_venv=True)
 def test(session):
     # ! In order for this to work, you need to have a local instance of the API running
     # ! and the MODE environment variable set to DEV in your .env file AND you need to
