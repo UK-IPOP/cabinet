@@ -1,8 +1,9 @@
 name: publish-mkdocs
 on:
-  push:
+  pull_request:
     branches:
       - main
+  workflow_dispatch:
 
 permissions:
   contents: write
